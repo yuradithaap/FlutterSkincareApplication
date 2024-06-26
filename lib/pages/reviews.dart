@@ -1,18 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:google_fonts/google_fonts.dart'; // Import Google Fonts
-import 'package:skincare/pages/reviewsModal.dart';
-import 'package:skincare/pages/reviewsUI.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:rekomendasi/services/review_services.dart';
+import 'package:rekomendasi/pages/reviewsProduct.dart';
 
 class Reviews extends StatefulWidget {
-  const Reviews({super.key});
+  final String id;
+  final double rating;
+
+  const Reviews({Key? key, required this.id, required this.rating}) : super(key: key);
 
   @override
   State<Reviews> createState() => _ReviewsState();
 }
 
 class _ReviewsState extends State<Reviews> {
+  List<ReviewsProduct> reviewsList = [];
   bool isMore = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchReviews(widget.id);
+  }
+
+  Future<void> _fetchReviews(String id) async {
+    try {
+      ReviewService reviewService = ReviewService();
+      List<ReviewsProduct> reviews = await reviewService.fetchReviews(id);
+      setState(() {
+        reviewsList = reviews;
+      });
+    } catch (e) {
+      print("Error fetching reviews: $e");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,20 +65,21 @@ class _ReviewsState extends State<Reviews> {
                       child: Text.rich(
                         TextSpan(
                           children: [
-                            const TextSpan(
-                              text: '4.5',
+                            TextSpan(
+                              text: widget.rating.toString(),
                               style: TextStyle(fontSize: 48),
                             ),
                             TextSpan(
                               text: '/5',
-                              style: TextStyle(fontSize: 24, color: Colors.grey[500]),
+                              style: TextStyle(
+                                  fontSize: 24, color: Colors.grey[500]),
                             )
                           ],
                         ),
                       ),
                     ),
                     RatingBarIndicator(
-                      rating: 4.5,
+                      rating: widget.rating,
                       itemBuilder: (context, index) => const Icon(
                         Icons.star,
                         color: Colors.amber,
@@ -67,7 +90,7 @@ class _ReviewsState extends State<Reviews> {
                       direction: Axis.horizontal,
                     ),
                     Text(
-                      '${ReviewsList.length} Reviews',
+                      '${reviewsList.length} Reviews',
                       style: TextStyle(fontSize: 20, color: Colors.grey[500]),
                     ),
                   ],
@@ -78,14 +101,10 @@ class _ReviewsState extends State<Reviews> {
           Expanded(
             child: ListView.separated(
               padding: const EdgeInsets.only(bottom: 8, top: 8),
-              itemCount: ReviewsList.length,
+              itemCount: reviewsList.length,
               itemBuilder: (context, index) {
                 return ReviewUI(
-                  image: ReviewsList[index].image,
-                  name: ReviewsList[index].name,
-                  date: ReviewsList[index].date,
-                  comment: ReviewsList[index].comment,
-                  rating: ReviewsList[index].rating,
+                  reviewsProduct: reviewsList[index],
                   isLess: isMore,
                   onTap: () => setState(() {
                     isMore = !isMore;
@@ -96,6 +115,100 @@ class _ReviewsState extends State<Reviews> {
                 return const Divider();
               },
             ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ReviewUI extends StatelessWidget {
+  final ReviewsProduct reviewsProduct;
+  final bool isLess;
+  final VoidCallback onTap;
+
+  const ReviewUI({
+    Key? key,
+    required this.reviewsProduct,
+    required this.isLess,
+    required this.onTap,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                height: 30.0,
+                width: 30.0,
+                margin: const EdgeInsets.only(right: 10.0),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle, // Make the container circular
+                  image: DecorationImage(
+                    image: AssetImage('lib/images/default.png'),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Text(
+                  reviewsProduct.user ?? 'Unknown User',
+                  style: GoogleFonts.poppins().copyWith(
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10.0),
+          Row(
+            children: [
+              RatingBarIndicator(
+                rating: reviewsProduct.rate ?? 0.0,
+                itemBuilder: (context, index) => const Icon(
+                  Icons.star,
+                  color: Color(0xff925857),
+                ),
+                itemCount: 5,
+                itemSize: 25.0,
+                unratedColor: Colors.grey[500],
+                direction: Axis.horizontal,
+              ),
+              const SizedBox(width: 8.0),
+              Text(
+                reviewsProduct.date ?? 'Unknown Date',
+                style: GoogleFonts.poppins().copyWith(
+                  fontSize: 18.0,
+                ),
+              ),
+            ],
+          ),
+          GestureDetector(
+            onTap: onTap,
+            child: isLess
+                ? Text(
+                    reviewsProduct.reviews ?? 'Unknown Reviews',
+                    maxLines: 100,
+                    overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.poppins().copyWith(
+                      fontSize: 18.0,
+                      color: Colors.grey[900],
+                    ),
+                  )
+                : Text(
+                    reviewsProduct.reviews ?? 'Unknown Reviews',
+                    overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.poppins().copyWith(
+                      fontSize: 18.0,
+                      color: Colors.grey[900],
+                    ),
+                  ),
           ),
         ],
       ),

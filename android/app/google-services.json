@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "696731780852",
-    "project_id": "skincare-4eba2",
-    "storage_bucket": "skincare-4eba2.appspot.com"
+    "project_number": "96670003268",
+    "project_id": "rekomendasi-71d8d",
+    "storage_bucket": "rekomendasi-71d8d.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:696731780852:android:73e55d9954ed0a1ac500a1",
+        "mobilesdk_app_id": "1:96670003268:android:a053974c607e75738dcc11",
         "android_client_info": {
-          "package_name": "com.example.skincare"
+          "package_name": "com.example.rekomendasi"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDjGgJWgTqnRi-BWBc8n1Vp4q6Kg32FEZo"
+          "current_key": "AIzaSyDaX1PYXE3wTSNHvAuVajMyZjt-3kMRwek"
         }
       ],
       "services": {

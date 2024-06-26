@@ -1,6 +1,6 @@
 {
-    "name": "skincare",
-    "short_name": "skincare",
+    "name": "rekomendasi",
+    "short_name": "rekomendasi",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

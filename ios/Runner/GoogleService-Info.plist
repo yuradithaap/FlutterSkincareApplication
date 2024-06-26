@@ -3,17 +3,17 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
-	<string>AIzaSyCmd2RnGzt4FdaPQVTyyb5j61ARH5L_1IU</string>
+	<string>AIzaSyDHmIqY6B_8u6NKM37erm_bbr17JZ1Wi7k</string>
 	<key>GCM_SENDER_ID</key>
-	<string>696731780852</string>
+	<string>96670003268</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.skincare</string>
+	<string>com.example.rekomendasi</string>
 	<key>PROJECT_ID</key>
-	<string>skincare-4eba2</string>
+	<string>rekomendasi-71d8d</string>
 	<key>STORAGE_BUCKET</key>
-	<string>skincare-4eba2.appspot.com</string>
+	<string>rekomendasi-71d8d.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:696731780852:ios:814802379ae47ed0c500a1</string>
+	<string>1:96670003268:ios:c4e62617de0aa6ba8dcc11</string>
 </dict>
 </plist>

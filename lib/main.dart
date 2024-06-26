@@ -1,34 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart'; // Import Firebase Core
-import 'package:skincare/firebase_options.dart';
-import 'package:skincare/pages/auth_page.dart';
-import 'package:skincare/pages/register_page.dart';
-import 'pages/login_page.dart';
-import 'package:skincare/pages/navbar_admin.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:rekomendasi/pages/login.dart';
+import 'package:rekomendasi/pages/registrasi.dart';
+import 'package:rekomendasi/pages/navbar.dart';
+import 'package:rekomendasi/pages/navbar_admin.dart';
+import 'package:get/get.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  runApp(const MyApp());
-}
+void main() {
+  runApp(MyApp());
+} // Fungsi yang akan dipanggil ketika aplikasi dijalankan
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key); // Fix super(key: key)
+  MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    EasyLoading.init();
+    return GetMaterialApp(
       title: 'My App',
-      initialRoute:
-          '/', // Initial route, in this case, will point to the login page
+      initialRoute: '/', // Ketika aplikasi dibuka maka akan langsung membuka rute '/' atau login
       routes: {
-        '/': (context) => AuthPage(), // Route for the login page
-        '/register': (context) => RegisterPage(),
-        '/login': (context) => LoginPage(),
-        '/admin': (context) =>
-            NavbarAdmin(), // Route for the home page (added comma)
+        '/': (context) => Login(), // Rute ke login
+        '/register': (context) => Registrasi(), // Rute ke registrasi
+        '/home': (context) => Navbar(), // Rute ke navbar atau home pengguna
+        '/admin': (context) => NavbarAdmin(), // Rute ke navbar atau home admin
       },
     );
   }

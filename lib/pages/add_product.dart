@@ -1,16 +1,111 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart'; // Add this import statement
-import 'package:skincare/pages/navbar_admin.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
+import 'package:rekomendasi/pages/my_button.dart';
 
 class AddProductForm extends StatelessWidget {
-  AddProductForm({super.key});
+  final TextEditingController idController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController imageController = TextEditingController();
+  final TextEditingController categoryController = TextEditingController();
+  final TextEditingController priceController = TextEditingController();
+  final TextEditingController brandController = TextEditingController();
+  final TextEditingController descController = TextEditingController();
+  final TextEditingController ratingController = TextEditingController();
+  final TextEditingController posController = TextEditingController();
+  final Function(String) onProductAdded;
 
-  final nameController = TextEditingController();
-  final imageController = TextEditingController();
-  final categoryController = TextEditingController();
-  final priceController = TextEditingController();
-  final ratingController = TextEditingController();
-  final descController = TextEditingController();
+  AddProductForm({Key? key, required this.onProductAdded}) : super(key: key);
+
+  Future<void> addProduct(BuildContext context) async {
+    final int id = int.parse(idController.text);
+    final String brand = brandController.text;
+    final String name = nameController.text;
+    final String image = imageController.text;
+    final String category = categoryController.text;
+    final int price = int.parse(priceController.text);
+    final double rating = double.parse(ratingController.text);
+    final String desc = descController.text;
+    final String pos = posController.text;
+
+    final Uri addProductUri = Uri.parse('http://10.0.2.2:5000/add_product');
+    try {
+      final response = await http.post(
+        addProductUri,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'id': id,
+          'category': category,
+          'brand': brand,
+          'name': name,
+          'image': image,
+          'price': price,
+          'rating': rating,
+          'positif': pos,
+          'desc': desc,
+        }),
+      );
+      if (response.statusCode == 200) {
+        final jsonData = jsonDecode(response.body);
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Success'),
+              content: Text(jsonData['message']),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context); // Close the dialog
+                    onProductAdded(
+                        category); // Trigger the callback to refresh the Home Page
+                  },
+                  child: Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+      } else {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Error'),
+              content: Text('Failed to add product: ${response.reasonPhrase}'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+      }
+    } catch (e) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Error'),
+            content: Text('An error occurred: $e'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +117,10 @@ class AddProductForm extends StatelessWidget {
         foregroundColor: const Color(0xfffde1e1),
         title: Text(
           'Add New Product',
-          style: GoogleFonts.poppins(fontSize: 20),
+          style: GoogleFonts.poppins(
+            fontSize: 20,
+            fontWeight: FontWeight.bold, // Set the fontWeight to bold
+          ),
         ),
       ),
       body: SingleChildScrollView(
@@ -32,29 +130,33 @@ class AddProductForm extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              TextFieldWithLabel(label: 'Name', controller: nameController),
-              TextFieldWithLabel(
-                  label: 'Image URL', controller: imageController),
+              TextFieldWithLabel(label: 'ID', controller: idController),
               DropdownFieldWithLabel(
-                  label: 'Category', controller: categoryController),
+                label: 'Category',
+                controller: categoryController,
+              ),
+              TextFieldWithLabel(label: 'Brand', controller: brandController),
+              TextFieldWithLabel(label: 'Name', controller: nameController),
+              TextFieldWithLabel(label: 'Image', controller: imageController),
               TextFieldWithLabel(label: 'Price', controller: priceController),
-              TextFieldWithLabel(label: 'Rating', controller: ratingController),
               TextFieldWithLabel(
-                  label: 'Description', controller: descController),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(
-                    context,
-                    MaterialPageRoute(builder: (context) => NavbarAdmin()),
-                  );
-                },
-                style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(const Color(0xff925857)),
-                  foregroundColor:
-                      MaterialStateProperty.all<Color>(const Color(0xFFFFFFFF)),
-                ),
-                child: Text('Save Product', style: GoogleFonts.poppins()),
+                label: 'Rating',
+                controller: ratingController,
+              ),
+              TextFieldWithLabel(
+                label: 'Positif',
+                controller: posController,
+              ),
+              TextFieldWithLabel(
+                label: 'Description',
+                controller: descController,
+              ),
+              const SizedBox(height: 5.0),
+              MyButton(
+                onTap: () => addProduct(context),
+                text: 'Add Product',
+                backColor: 0xff925857,
+                textColor: 0xFFFFFFFF,
               ),
             ],
           ),
@@ -68,7 +170,8 @@ class TextFieldWithLabel extends StatelessWidget {
   final String label;
   final TextEditingController controller;
 
-  const TextFieldWithLabel({super.key, 
+  const TextFieldWithLabel({
+    Key? key,
     required this.label,
     required this.controller,
   });
@@ -113,7 +216,8 @@ class DropdownFieldWithLabel extends StatefulWidget {
   final String label;
   final TextEditingController controller;
 
-  const DropdownFieldWithLabel({super.key, 
+  const DropdownFieldWithLabel({
+    Key? key,
     required this.label,
     required this.controller,
   });
@@ -149,9 +253,9 @@ class _DropdownFieldWithLabelState extends State<DropdownFieldWithLabel> {
               });
             },
             items: <String>[
-              'Serum',
-              'Face Wash',
+              'Facewash',
               'Toner',
+              'Serum',
               'Moisturizer',
               'Sunscreen'
             ].map<DropdownMenuItem<String>>((String value) {

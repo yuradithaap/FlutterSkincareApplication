@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart'; // Add this import statement
+import 'package:google_fonts/google_fonts.dart';
 
 class MyButton extends StatelessWidget {
   final Function()? onTap;
@@ -7,13 +7,13 @@ class MyButton extends StatelessWidget {
   final int backColor;
   final int textColor;
 
-  const MyButton({
+  const MyButton({ // constructor
     Key? key,
     required this.onTap,
     required this.text,
     required this.backColor,
     required this.textColor,
-  }) : super(key: key); // Corrected constructor
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -1,32 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:skincare/pages/login_page.dart';
-import 'package:skincare/pages/history_page.dart';
-import 'package:skincare/pages/home_page.dart';
+import 'package:rekomendasi/pages/login.dart';
+import 'package:rekomendasi/pages/history.dart';
+import 'package:rekomendasi/pages/home_page.dart';
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Navbar extends StatefulWidget {
-  const Navbar({super.key});
-
   @override
-  State<Navbar> createState() => _Navbar();
+  State<Navbar> createState() => _NavbarState();
 }
 
-class _Navbar extends State<Navbar> {
+class _NavbarState extends State<Navbar> {
   int currentIndex = 0;
-
-  final screens = [
-    HomePage(),
-    HistoryPage(),
-    LoginPage(), // Changed the Logout page to LoginPage
-  ];
 
   @override
   Widget build(BuildContext context) {
+    final username = Get.arguments as String;
+
+    final screens = [
+      HomePage(username: username),
+      History(username: username,),
+      Login(),
+    ];
     return Scaffold(
+      appBar: currentIndex != 1
+          ? _buildAppBar(username)
+          : null,
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentIndex,
         onTap: (index) {
-          if (index == 2) { // Check if logout icon is tapped
-            _logout(); // Perform logout action
+          if (index == 2) {
+            _logout();
           } else {
             setState(() => currentIndex = index);
           }
@@ -48,16 +52,40 @@ class _Navbar extends State<Navbar> {
           ),
         ],
       ),
-      body: screens[currentIndex]
+      body: screens[currentIndex],
+    );
+  }
+
+  AppBar _buildAppBar(String username) {
+    return AppBar(
+      elevation: 0,
+      backgroundColor: const Color(0xff925857),
+      foregroundColor: const Color(0xfffde1e1),
+      automaticallyImplyLeading: false,
+      title: Text(
+        'Hello $username!',
+        style: GoogleFonts.poppins(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+          color: Color(0xfffde1e1),
+        ),
+      ),
+      actions: const [
+        Padding(
+          padding: EdgeInsets.only(right: 20.0),
+          child: Icon(
+            Icons.person,
+            color: Colors.white,
+          ),
+        ),
+      ],
     );
   }
 
   void _logout() {
-    // Perform logout actions here, such as clearing user sessions, etc.
-    // For now, you can simply navigate to the login page.
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => LoginPage()),
+      MaterialPageRoute(builder: (context) => Login()),
     );
   }
 }

@@ -7,11 +7,11 @@ class MyTextField extends StatelessWidget {
   final bool obsecureText;
 
   const MyTextField({
-    Key? key, // Added Key? key parameter
+    Key? key,
     required this.controller,
     required this.hintText,
     required this.obsecureText,
-  }) : super(key: key); // Corrected constructor
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
