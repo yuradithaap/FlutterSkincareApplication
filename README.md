@@ -13,11 +13,10 @@
 
 <table>
   <tr>
-    <td><img src="https://github.com/yuradithaap/Flutter-Skincare-App/assets/84622823/2c8e5cfd-eea9-4dcf-a187-9ad97a469c72" width="200" height="400" alt="Image"></td>
-    <td><img src="https://github.com/yuradithaap/Flutter-Skincare-App/assets/84622823/a0291dc5-8df9-479e-81df-ddd8765078d5" width="200" height="400" alt="Image"></td>
-    <td>
-<img src="https://github.com/yuradithaap/Flutter-Skincare-App/assets/84622823/11cb2d34-0034-48a2-bd84-bde1b04ba7e8" width="200" height="400" alt="Image"></td>
-    <td><img src="https://github.com/yuradithaap/Flutter-Skincare-App/assets/84622823/14b2e4b1-e760-407b-a0f8-f8e4dee0f881" width="200" height="400" alt="Picture2"></td>
+    <td><img src="https://github.com/yuradithaap/FlutterSkincareApplication/assets/84622823/79ce8d4a-2e0c-4a64-ba3c-f907b92fc52d" width="200" height="400" alt="Image"></td>
+    <td><img src="https://github.com/yuradithaap/FlutterSkincareApplication/assets/84622823/72358ad8-e465-464d-a4b7-1f177d14cf4d" width="200" height="400" alt="Image"></td>
+    <td><img src="https://github.com/yuradithaap/FlutterSkincareApplication/assets/84622823/5078e046-4832-4faa-b4f3-3b5d5fae2596" width="200" height="400" alt="Image"></td>
+    <td><img src="https://github.com/yuradithaap/FlutterSkincareApplication/assets/84622823/aa991ce0-d0c3-4d8b-aa77-52847ade70ea" width="200" height="400" alt="Picture2"></td>
   </tr>
 </table>
 
