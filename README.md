@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <h1>✨ Recommendation Skincare Application ✨</h1>
  A simple Flutter application that  displays information, reviews, and recommendations for skincare products based on user's reviews. 
  <p>This application is my final project, created to obtain my bachelor's degree.</p>
@@ -30,30 +29,3 @@
 - shared_preferences
 - intl
 - file_picker
-
-
-
-
-
-
-
-
-
-=======
-# rekomendasi
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
->>>>>>> 8e922f9 (first commit)
